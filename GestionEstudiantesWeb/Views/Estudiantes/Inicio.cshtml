@@ -1,0 +1,65 @@
+﻿@model List<GestionEstudiantesDtos.EstudiantesDtos>
+
+@{
+    ViewBag.Title = "Lista de Estudiantes";
+}
+
+<link href="~/Content/estudiantes.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<div class="eco-wrap">
+    <div class="eco-header">
+        <div>
+            <h2>Registro de Estudiantes</h2>
+            <div class="eco-sub">@Model.Count estudiante(s) matriculado(s)</div>
+        </div>
+        @Html.ActionLink("+ Nuevo estudiante", "Crear", null, new { @class = "eco-btn eco-btn-dorado" })
+    </div>
+
+    <div class="eco-tabla-cont">
+        <table class="eco-tabla" id="tablaEstudiantes">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Sexo</th>
+                    <th>Documento</th>
+                    <th>Carrera</th>
+                    <th>Ciclo</th>
+                    <th>Turno</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var estudiante in Model)
+                {
+                    <tr>
+                        <td>@estudiante.IdEstudiante</td>
+                        <td>@estudiante.Nombre</td>
+                        <td>@estudiante.ApellidoPaterno @estudiante.ApellidoMaterno</td>
+                        <td>@estudiante.Sexo</td>
+                        <td>@estudiante.TipoDocumento @estudiante.NumeroDocumento</td>
+                        <td>@estudiante.Carrera</td>
+                        <td><span class="eco-badge">Ciclo @estudiante.Ciclo</span></td>
+                        <td>@estudiante.Turno</td>
+                        <td class="eco-acciones">
+                            @Html.ActionLink("Editar", "Editar", new { id = estudiante.IdEstudiante }, new { @class = "eco-btn eco-btn-outline eco-btn-sm" })
+                            @Html.ActionLink("Eliminar", "Eliminar", new { id = estudiante.IdEstudiante }, new { @class = "eco-btn eco-btn-peligro eco-btn-sm" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    gsap.from("#tablaEstudiantes tbody tr", {
+        opacity: 0,
+        y: 12,
+        duration: 0.4,
+        stagger: 0.04,
+        ease: "power2.out"
+    });
+</script>

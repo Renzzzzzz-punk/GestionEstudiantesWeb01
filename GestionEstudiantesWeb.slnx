@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="GestionEstudiantesDtos/GestionEstudiantesDtos.csproj" />
+  <Project Path="GestionEstudiantesWeb/GestionEstudiantesWeb.csproj" Id="736a1aa2-b842-4e7a-99aa-e0e72c86d2f7" />
+</Solution>

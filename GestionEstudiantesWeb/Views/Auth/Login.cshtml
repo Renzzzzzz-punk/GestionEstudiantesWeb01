@@ -1,0 +1,162 @@
+﻿@{
+    ViewBag.Title = "Iniciar Sesión";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Iniciar Sesión</title>
+    <link href="~/Content/estudiantes.css" rel="stylesheet" />
+    <style>
+        body {
+            background: var(--papel);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-box {
+            background: #fff;
+            border: 1px solid var(--linea);
+            border-left: 4px solid var(--dorado);
+            border-radius: 4px;
+            padding: 36px 40px;
+            width: 340px;
+        }
+
+            .login-box h2 {
+                font-family: 'Source Serif 4', serif;
+                color: var(--tinta);
+                margin: 0 0 4px 0;
+            }
+
+            .login-box .sub {
+                font-size: 13px;
+                color: #8a8471;
+                margin-bottom: 20px;
+            }
+
+            .login-box label {
+                font-size: 12.5px;
+                font-weight: 600;
+                color: var(--tinta-suave);
+                display: block;
+                margin-bottom: 4px;
+            }
+
+            .login-box input {
+                width: 100%;
+                padding: 9px 12px;
+                border: 1px solid var(--linea);
+                border-radius: 3px;
+                margin-bottom: 16px;
+                box-sizing: border-box;
+                font-size: 14px;
+            }
+
+            .login-box button {
+                width: 100%;
+                padding: 10px;
+                background: var(--tinta);
+                color: #fff;
+                border: none;
+                border-radius: 3px;
+                font-weight: 600;
+                cursor: pointer;
+            }
+
+        #resultado {
+            margin-top: 16px;
+            font-size: 13px;
+            word-break: break-all;
+        }
+
+            #resultado.ok {
+                color: var(--exito);
+            }
+
+            #resultado.error {
+                color: var(--peligro);
+            }
+
+        #tokenBox {
+            margin-top: 10px;
+            background: var(--papel);
+            border: 1px solid var(--linea);
+            border-radius: 3px;
+            padding: 10px;
+            font-size: 11px;
+            font-family: monospace;
+            word-break: break-all;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <h2>Iniciar Sesión</h2>
+        <div class="sub">Sistema de Gestión de Estudiantes</div>
+
+        <form id="formLogin">
+            <label>Usuario</label>
+            <input type="text" id="usuario" placeholder="admin" required />
+
+            <label>Contraseña</label>
+            <input type="password" id="password" placeholder="••••••••" required />
+
+            <button type="submit">Ingresar</button>
+        </form>
+
+        <div id="resultado"></div>
+        <div id="tokenBox"></div>
+    </div>
+
+    <script>
+        document.getElementById('formLogin').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            var usuario = document.getElementById('usuario').value;
+            var password = document.getElementById('password').value;
+            var resultado = document.getElementById('resultado');
+            var tokenBox = document.getElementById('tokenBox');
+
+            resultado.textContent = "Verificando...";
+            resultado.className = "";
+            tokenBox.style.display = "none";
+
+            var formData = new URLSearchParams();
+            formData.append('Usuario', usuario);
+            formData.append('Password', password);
+
+            fetch('@Url.Action("Login", "Auth")', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: formData
+            })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+                if (data.Exito) {
+                    resultado.textContent = "✔ " + data.Mensaje + " — Bienvenido, " + data.Nombre + " (" + data.Rol + ")";
+                    resultado.className = "ok";
+                    tokenBox.textContent = data.Token;
+                    tokenBox.style.display = "block";
+                } else {
+                    resultado.textContent = "✖ " + data.Mensaje;
+                    resultado.className = "error";
+                }
+            })
+            .catch(function (err) {
+                resultado.textContent = "✖ Error de conexión: " + err;
+                resultado.className = "error";
+            });
+        });
+    </script>
+
+</body>
+</html>

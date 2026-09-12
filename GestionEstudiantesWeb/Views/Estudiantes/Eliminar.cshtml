@@ -1,0 +1,34 @@
+﻿@model GestionEstudiantesDtos.EstudiantesDtos
+
+@{
+    ViewBag.Title = "Eliminar Estudiante";
+}
+
+<link href="~/Content/estudiantes.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<div class="eco-wrap">
+    <div class="eco-header">
+        <div>
+            <h2>Eliminar Estudiante</h2>
+            <div class="eco-sub">Esta acción no se puede deshacer</div>
+        </div>
+    </div>
+
+    <div class="eco-ficha" id="fichaEliminar">
+        <p><b>Nombre:</b> @Model.Nombre @Model.ApellidoPaterno @Model.ApellidoMaterno</p>
+        <p><b>Documento:</b> @Model.TipoDocumento @Model.NumeroDocumento</p>
+        <p><b>Carrera:</b> @Model.Carrera — Ciclo @Model.Ciclo</p>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(m => m.IdEstudiante)
+        <button type="submit" class="eco-btn eco-btn-peligro">Sí, eliminar</button>
+        @Html.ActionLink("Cancelar", "Inicio", null, new { @class = "eco-btn eco-btn-outline" })
+    }
+</div>
+
+<script>
+    gsap.from("#fichaEliminar", { opacity: 0, y: 16, duration: 0.4, ease: "power2.out" });
+</script>

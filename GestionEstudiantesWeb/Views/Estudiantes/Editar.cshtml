@@ -1,0 +1,60 @@
+﻿@model GestionEstudiantesDtos.EstudiantesDtos
+
+@{
+    ViewBag.Title = "Editar Estudiante";
+}
+
+<link href="~/Content/estudiantes.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<div class="eco-wrap">
+    <div class="eco-header">
+        <div>
+            <h2>Editar Estudiante</h2>
+            <div class="eco-sub">ID #@Model.IdEstudiante</div>
+        </div>
+    </div>
+
+    <div class="eco-form-cont" id="formEditar">
+        @using (Html.BeginForm())
+        {
+            @Html.HiddenFor(m => m.IdEstudiante)
+
+            <label>Nombre</label>
+            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+
+            <label>Apellido Paterno</label>
+            @Html.TextBoxFor(m => m.ApellidoPaterno, new { @class = "form-control" })
+
+            <label>Apellido Materno</label>
+            @Html.TextBoxFor(m => m.ApellidoMaterno, new { @class = "form-control" })
+
+            <label>Sexo</label>
+            @Html.TextBoxFor(m => m.Sexo, new { @class = "form-control" })
+
+            <label>Tipo de Documento</label>
+            @Html.TextBoxFor(m => m.TipoDocumento, new { @class = "form-control" })
+
+            <label>N° Documento</label>
+            @Html.TextBoxFor(m => m.NumeroDocumento, new { @class = "form-control" })
+
+            <label>Carrera</label>
+            @Html.TextBoxFor(m => m.Carrera, new { @class = "form-control" })
+
+            <label>Ciclo</label>
+            @Html.TextBoxFor(m => m.Ciclo, new { @class = "form-control" })
+
+            <label>Turno</label>
+            @Html.TextBoxFor(m => m.Turno, new { @class = "form-control" })
+
+            <div style="margin-top: 8px;">
+                <button type="submit" class="eco-btn eco-btn-tinta">Actualizar</button>
+                @Html.ActionLink("Cancelar", "Inicio", null, new { @class = "eco-btn eco-btn-outline" })
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    gsap.from("#formEditar", { opacity: 0, y: 16, duration: 0.45, ease: "power2.out" });
+</script>
